@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ReviewRouteImport } from './routes/review'
+import { Route as ExplainRouteImport } from './routes/explain'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiSummarizeCallRouteImport } from './routes/api/summarize-call'
 import { Route as ApiSummarizeRouteImport } from './routes/api/summarize'
@@ -20,6 +21,11 @@ import { Route as ApiExplainCodeRouteImport } from './routes/api/explain-code'
 const ReviewRoute = ReviewRouteImport.update({
   id: '/review',
   path: '/review',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExplainRoute = ExplainRouteImport.update({
+  id: '/explain',
+  path: '/explain',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -55,6 +61,7 @@ const ApiExplainCodeRoute = ApiExplainCodeRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/explain': typeof ExplainRoute
   '/review': typeof ReviewRoute
   '/api/explain-code': typeof ApiExplainCodeRoute
   '/api/generate-guide': typeof ApiGenerateGuideRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/explain': typeof ExplainRoute
   '/review': typeof ReviewRoute
   '/api/explain-code': typeof ApiExplainCodeRoute
   '/api/generate-guide': typeof ApiGenerateGuideRoute
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/explain': typeof ExplainRoute
   '/review': typeof ReviewRoute
   '/api/explain-code': typeof ApiExplainCodeRoute
   '/api/generate-guide': typeof ApiGenerateGuideRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/explain'
     | '/review'
     | '/api/explain-code'
     | '/api/generate-guide'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/explain'
     | '/review'
     | '/api/explain-code'
     | '/api/generate-guide'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/explain'
     | '/review'
     | '/api/explain-code'
     | '/api/generate-guide'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ExplainRoute: typeof ExplainRoute
   ReviewRoute: typeof ReviewRoute
   ApiExplainCodeRoute: typeof ApiExplainCodeRoute
   ApiGenerateGuideRoute: typeof ApiGenerateGuideRoute
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/review'
       fullPath: '/review'
       preLoaderRoute: typeof ReviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explain': {
+      id: '/explain'
+      path: '/explain'
+      fullPath: '/explain'
+      preLoaderRoute: typeof ExplainRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -177,6 +197,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ExplainRoute: ExplainRoute,
   ReviewRoute: ReviewRoute,
   ApiExplainCodeRoute: ApiExplainCodeRoute,
   ApiGenerateGuideRoute: ApiGenerateGuideRoute,
