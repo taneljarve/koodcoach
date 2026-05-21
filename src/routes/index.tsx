@@ -7,7 +7,7 @@ export const Route = createFileRoute("/")({
   component: Home,
   head: () => ({
     meta: [
-      { title: "AI-Augmented Peer Reviews — Learn to give better feedback" },
+      { title: "kood// coach — AI-augmented peer reviews" },
       {
         name: "description",
         content:
