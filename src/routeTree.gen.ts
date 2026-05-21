@@ -10,33 +10,72 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiSummarizeRouteImport } from './routes/api/summarize'
+import { Route as ApiImproveFeedbackRouteImport } from './routes/api/improve-feedback'
+import { Route as ApiGenerateGuideRouteImport } from './routes/api/generate-guide'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSummarizeRoute = ApiSummarizeRouteImport.update({
+  id: '/api/summarize',
+  path: '/api/summarize',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiImproveFeedbackRoute = ApiImproveFeedbackRouteImport.update({
+  id: '/api/improve-feedback',
+  path: '/api/improve-feedback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiGenerateGuideRoute = ApiGenerateGuideRouteImport.update({
+  id: '/api/generate-guide',
+  path: '/api/generate-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/generate-guide': typeof ApiGenerateGuideRoute
+  '/api/improve-feedback': typeof ApiImproveFeedbackRoute
+  '/api/summarize': typeof ApiSummarizeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/generate-guide': typeof ApiGenerateGuideRoute
+  '/api/improve-feedback': typeof ApiImproveFeedbackRoute
+  '/api/summarize': typeof ApiSummarizeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/generate-guide': typeof ApiGenerateGuideRoute
+  '/api/improve-feedback': typeof ApiImproveFeedbackRoute
+  '/api/summarize': typeof ApiSummarizeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/api/generate-guide'
+    | '/api/improve-feedback'
+    | '/api/summarize'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/api/generate-guide' | '/api/improve-feedback' | '/api/summarize'
+  id:
+    | '__root__'
+    | '/'
+    | '/api/generate-guide'
+    | '/api/improve-feedback'
+    | '/api/summarize'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiGenerateGuideRoute: typeof ApiGenerateGuideRoute
+  ApiImproveFeedbackRoute: typeof ApiImproveFeedbackRoute
+  ApiSummarizeRoute: typeof ApiSummarizeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,12 +87,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/summarize': {
+      id: '/api/summarize'
+      path: '/api/summarize'
+      fullPath: '/api/summarize'
+      preLoaderRoute: typeof ApiSummarizeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/improve-feedback': {
+      id: '/api/improve-feedback'
+      path: '/api/improve-feedback'
+      fullPath: '/api/improve-feedback'
+      preLoaderRoute: typeof ApiImproveFeedbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/generate-guide': {
+      id: '/api/generate-guide'
+      path: '/api/generate-guide'
+      fullPath: '/api/generate-guide'
+      preLoaderRoute: typeof ApiGenerateGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiGenerateGuideRoute: ApiGenerateGuideRoute,
+  ApiImproveFeedbackRoute: ApiImproveFeedbackRoute,
+  ApiSummarizeRoute: ApiSummarizeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
