@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ReviewRouteImport } from './routes/review'
 import { Route as ExplainRouteImport } from './routes/explain'
+import { Route as CallRouteImport } from './routes/call'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiSummarizeCallRouteImport } from './routes/api/summarize-call'
 import { Route as ApiSummarizeRouteImport } from './routes/api/summarize'
@@ -26,6 +27,11 @@ const ReviewRoute = ReviewRouteImport.update({
 const ExplainRoute = ExplainRouteImport.update({
   id: '/explain',
   path: '/explain',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CallRoute = CallRouteImport.update({
+  id: '/call',
+  path: '/call',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -61,6 +67,7 @@ const ApiExplainCodeRoute = ApiExplainCodeRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/call': typeof CallRoute
   '/explain': typeof ExplainRoute
   '/review': typeof ReviewRoute
   '/api/explain-code': typeof ApiExplainCodeRoute
@@ -71,6 +78,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/call': typeof CallRoute
   '/explain': typeof ExplainRoute
   '/review': typeof ReviewRoute
   '/api/explain-code': typeof ApiExplainCodeRoute
@@ -82,6 +90,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/call': typeof CallRoute
   '/explain': typeof ExplainRoute
   '/review': typeof ReviewRoute
   '/api/explain-code': typeof ApiExplainCodeRoute
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/call'
     | '/explain'
     | '/review'
     | '/api/explain-code'
@@ -104,6 +114,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/call'
     | '/explain'
     | '/review'
     | '/api/explain-code'
@@ -114,6 +125,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/call'
     | '/explain'
     | '/review'
     | '/api/explain-code'
@@ -125,6 +137,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CallRoute: typeof CallRoute
   ExplainRoute: typeof ExplainRoute
   ReviewRoute: typeof ReviewRoute
   ApiExplainCodeRoute: typeof ApiExplainCodeRoute
@@ -148,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/explain'
       fullPath: '/explain'
       preLoaderRoute: typeof ExplainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/call': {
+      id: '/call'
+      path: '/call'
+      fullPath: '/call'
+      preLoaderRoute: typeof CallRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -197,6 +217,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CallRoute: CallRoute,
   ExplainRoute: ExplainRoute,
   ReviewRoute: ReviewRoute,
   ApiExplainCodeRoute: ApiExplainCodeRoute,
