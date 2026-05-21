@@ -26,6 +26,25 @@ export type AssignmentInput = {
   code: string;
 };
 
+export type ExplainResult = {
+  summary: string;
+  lineByLine: Array<{ range: string; what: string; why: string }>;
+  concepts: Array<{ name: string; whyItMatters: string }>;
+  performance: string[];
+  security: string[];
+  missingEdgeCases: string[];
+  questionsToAskAuthor: string[];
+};
+
+export type CallSummary = {
+  tlDr: string[];
+  decisions: string[];
+  actionItems: Array<{ owner: "submitter" | "reviewer"; task: string; why: string }>;
+  openQuestions: string[];
+  learningMoments: string[];
+  feedbackQuality: { specificity: number; constructiveness: number; actionability: number };
+};
+
 export const MOCK_ASSIGNMENT: AssignmentInput = {
   title: "Implement a debounce utility",
   description:
@@ -42,3 +61,11 @@ export const MOCK_ASSIGNMENT: AssignmentInput = {
   return wrapped;
 }`,
 };
+
+export const MOCK_SNIPPET = `function getUser(id) {
+  const sql = "SELECT * FROM users WHERE id = '" + id + "'";
+  return db.query(sql).then(rows => {
+    document.getElementById("name").innerHTML = rows[0].name;
+    return rows[0];
+  });
+}`;
