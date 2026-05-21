@@ -76,7 +76,7 @@ function Home() {
 
       <footer className="border-t">
         <div className="mx-auto max-w-6xl px-6 py-6 text-xs text-muted-foreground flex items-center justify-between">
-          <span>PeerCoach · educational prototype</span>
+          <span>kood// coach · educational prototype</span>
           <span>The AI never writes the solution.</span>
         </div>
       </footer>
