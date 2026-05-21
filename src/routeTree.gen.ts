@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ReviewRouteImport } from './routes/review'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiSummarizeRouteImport } from './routes/api/summarize'
 import { Route as ApiImproveFeedbackRouteImport } from './routes/api/improve-feedback'
 import { Route as ApiGenerateGuideRouteImport } from './routes/api/generate-guide'
 
+const ReviewRoute = ReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const ApiGenerateGuideRoute = ApiGenerateGuideRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/review': typeof ReviewRoute
   '/api/generate-guide': typeof ApiGenerateGuideRoute
   '/api/improve-feedback': typeof ApiImproveFeedbackRoute
   '/api/summarize': typeof ApiSummarizeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/review': typeof ReviewRoute
   '/api/generate-guide': typeof ApiGenerateGuideRoute
   '/api/improve-feedback': typeof ApiImproveFeedbackRoute
   '/api/summarize': typeof ApiSummarizeRoute
@@ -50,6 +58,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/review': typeof ReviewRoute
   '/api/generate-guide': typeof ApiGenerateGuideRoute
   '/api/improve-feedback': typeof ApiImproveFeedbackRoute
   '/api/summarize': typeof ApiSummarizeRoute
@@ -58,14 +67,21 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/review'
     | '/api/generate-guide'
     | '/api/improve-feedback'
     | '/api/summarize'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/generate-guide' | '/api/improve-feedback' | '/api/summarize'
+  to:
+    | '/'
+    | '/review'
+    | '/api/generate-guide'
+    | '/api/improve-feedback'
+    | '/api/summarize'
   id:
     | '__root__'
     | '/'
+    | '/review'
     | '/api/generate-guide'
     | '/api/improve-feedback'
     | '/api/summarize'
@@ -73,6 +89,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ReviewRoute: typeof ReviewRoute
   ApiGenerateGuideRoute: typeof ApiGenerateGuideRoute
   ApiImproveFeedbackRoute: typeof ApiImproveFeedbackRoute
   ApiSummarizeRoute: typeof ApiSummarizeRoute
@@ -80,6 +97,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/review': {
+      id: '/review'
+      path: '/review'
+      fullPath: '/review'
+      preLoaderRoute: typeof ReviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -113,6 +137,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ReviewRoute: ReviewRoute,
   ApiGenerateGuideRoute: ApiGenerateGuideRoute,
   ApiImproveFeedbackRoute: ApiImproveFeedbackRoute,
   ApiSummarizeRoute: ApiSummarizeRoute,
@@ -120,3 +145,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
