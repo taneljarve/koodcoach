@@ -7,7 +7,7 @@ export const Route = createFileRoute("/")({
   component: Home,
   head: () => ({
     meta: [
-      { title: "AI-Augmented Peer Reviews — Learn to give better feedback" },
+      { title: "kood// coach — AI-augmented peer reviews" },
       {
         name: "description",
         content:
@@ -24,7 +24,7 @@ function Home() {
         <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-semibold">
             <GraduationCap className="h-5 w-5 text-primary" />
-            <span>PeerCoach</span>
+            <span>kood<span className="text-primary">//</span> coach</span>
           </Link>
           <Link to="/review">
             <Button size="sm">Start review</Button>
@@ -76,7 +76,7 @@ function Home() {
 
       <footer className="border-t">
         <div className="mx-auto max-w-6xl px-6 py-6 text-xs text-muted-foreground flex items-center justify-between">
-          <span>PeerCoach · educational prototype</span>
+          <span>kood// coach · educational prototype</span>
           <span>The AI never writes the solution.</span>
         </div>
       </footer>
