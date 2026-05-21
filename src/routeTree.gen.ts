@@ -10,19 +10,38 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ReviewRouteImport } from './routes/review'
+import { Route as ExplainRouteImport } from './routes/explain'
+import { Route as CallRouteImport } from './routes/call'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiSummarizeCallRouteImport } from './routes/api/summarize-call'
 import { Route as ApiSummarizeRouteImport } from './routes/api/summarize'
 import { Route as ApiImproveFeedbackRouteImport } from './routes/api/improve-feedback'
 import { Route as ApiGenerateGuideRouteImport } from './routes/api/generate-guide'
+import { Route as ApiExplainCodeRouteImport } from './routes/api/explain-code'
 
 const ReviewRoute = ReviewRouteImport.update({
   id: '/review',
   path: '/review',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExplainRoute = ExplainRouteImport.update({
+  id: '/explain',
+  path: '/explain',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CallRoute = CallRouteImport.update({
+  id: '/call',
+  path: '/call',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSummarizeCallRoute = ApiSummarizeCallRouteImport.update({
+  id: '/api/summarize-call',
+  path: '/api/summarize-call',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiSummarizeRoute = ApiSummarizeRouteImport.update({
@@ -40,59 +59,92 @@ const ApiGenerateGuideRoute = ApiGenerateGuideRouteImport.update({
   path: '/api/generate-guide',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiExplainCodeRoute = ApiExplainCodeRouteImport.update({
+  id: '/api/explain-code',
+  path: '/api/explain-code',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/call': typeof CallRoute
+  '/explain': typeof ExplainRoute
   '/review': typeof ReviewRoute
+  '/api/explain-code': typeof ApiExplainCodeRoute
   '/api/generate-guide': typeof ApiGenerateGuideRoute
   '/api/improve-feedback': typeof ApiImproveFeedbackRoute
   '/api/summarize': typeof ApiSummarizeRoute
+  '/api/summarize-call': typeof ApiSummarizeCallRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/call': typeof CallRoute
+  '/explain': typeof ExplainRoute
   '/review': typeof ReviewRoute
+  '/api/explain-code': typeof ApiExplainCodeRoute
   '/api/generate-guide': typeof ApiGenerateGuideRoute
   '/api/improve-feedback': typeof ApiImproveFeedbackRoute
   '/api/summarize': typeof ApiSummarizeRoute
+  '/api/summarize-call': typeof ApiSummarizeCallRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/call': typeof CallRoute
+  '/explain': typeof ExplainRoute
   '/review': typeof ReviewRoute
+  '/api/explain-code': typeof ApiExplainCodeRoute
   '/api/generate-guide': typeof ApiGenerateGuideRoute
   '/api/improve-feedback': typeof ApiImproveFeedbackRoute
   '/api/summarize': typeof ApiSummarizeRoute
+  '/api/summarize-call': typeof ApiSummarizeCallRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/call'
+    | '/explain'
     | '/review'
+    | '/api/explain-code'
     | '/api/generate-guide'
     | '/api/improve-feedback'
     | '/api/summarize'
+    | '/api/summarize-call'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/call'
+    | '/explain'
     | '/review'
+    | '/api/explain-code'
     | '/api/generate-guide'
     | '/api/improve-feedback'
     | '/api/summarize'
+    | '/api/summarize-call'
   id:
     | '__root__'
     | '/'
+    | '/call'
+    | '/explain'
     | '/review'
+    | '/api/explain-code'
     | '/api/generate-guide'
     | '/api/improve-feedback'
     | '/api/summarize'
+    | '/api/summarize-call'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CallRoute: typeof CallRoute
+  ExplainRoute: typeof ExplainRoute
   ReviewRoute: typeof ReviewRoute
+  ApiExplainCodeRoute: typeof ApiExplainCodeRoute
   ApiGenerateGuideRoute: typeof ApiGenerateGuideRoute
   ApiImproveFeedbackRoute: typeof ApiImproveFeedbackRoute
   ApiSummarizeRoute: typeof ApiSummarizeRoute
+  ApiSummarizeCallRoute: typeof ApiSummarizeCallRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -104,11 +156,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/explain': {
+      id: '/explain'
+      path: '/explain'
+      fullPath: '/explain'
+      preLoaderRoute: typeof ExplainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/call': {
+      id: '/call'
+      path: '/call'
+      fullPath: '/call'
+      preLoaderRoute: typeof CallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/summarize-call': {
+      id: '/api/summarize-call'
+      path: '/api/summarize-call'
+      fullPath: '/api/summarize-call'
+      preLoaderRoute: typeof ApiSummarizeCallRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/summarize': {
@@ -132,15 +205,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiGenerateGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/explain-code': {
+      id: '/api/explain-code'
+      path: '/api/explain-code'
+      fullPath: '/api/explain-code'
+      preLoaderRoute: typeof ApiExplainCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CallRoute: CallRoute,
+  ExplainRoute: ExplainRoute,
   ReviewRoute: ReviewRoute,
+  ApiExplainCodeRoute: ApiExplainCodeRoute,
   ApiGenerateGuideRoute: ApiGenerateGuideRoute,
   ApiImproveFeedbackRoute: ApiImproveFeedbackRoute,
   ApiSummarizeRoute: ApiSummarizeRoute,
+  ApiSummarizeCallRoute: ApiSummarizeCallRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
