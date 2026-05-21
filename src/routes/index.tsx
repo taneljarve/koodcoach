@@ -24,7 +24,7 @@ function Home() {
         <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-semibold">
             <GraduationCap className="h-5 w-5 text-primary" />
-            <span>PeerCoach</span>
+            <span>kood<span className="text-primary">//</span> coach</span>
           </Link>
           <Link to="/review">
             <Button size="sm">Start review</Button>
