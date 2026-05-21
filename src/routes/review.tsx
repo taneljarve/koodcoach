@@ -35,7 +35,7 @@ export const Route = createFileRoute("/review")({
   component: ReviewFlow,
   head: () => ({
     meta: [
-      { title: "Start a review — PeerCoach" },
+      { title: "Start a review — kood// coach" },
       { name: "description", content: "Generate an AI-assisted review guide and feedback coach." },
     ],
   }),
